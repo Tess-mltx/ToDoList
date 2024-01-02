@@ -1,4 +1,14 @@
-let counter = 0
+let counter
+function getTheID () {
+    let arrayTask = localStorage.tasks
+    if (localStorage.getItem('tasks') !== null) {
+        counter = parseInt(arrayTask.length)
+    } else {
+        counter = 0
+    }
+    return counter
+}
+getTheID()
 class tasks {
     constructor(taskToDo) {
         this.task = taskToDo;
@@ -89,15 +99,12 @@ function closeForm(){
 let editingTask = null;
 function editTask(task) {
     taskForm();
-    // Remplissez le formulaire avec le texte actuel de la tâche
     let taskText = task.querySelector('.listContainer-listToDo-task-text').textContent;
     document.getElementById('taskTodo').value = taskText;
 
-    //indiquer qu'il s'agit d'une opération d'édition
     let btn = document.getElementById('submitBtn');
     btn.setAttribute("value", "Edit task");
     
-    // Mettez à jour la tâche en cours d'édition
     editingTask = task;
 }
 
@@ -118,8 +125,9 @@ function submitNewTask() {
             CreateTask(newTask);
             saveTaskLocally(newTask);
         }
-
+        console.log(localStorage.tasks)
         closeForm();
+        location.reload()
     });
 }
 
@@ -143,8 +151,6 @@ function deleteTask(taskId) {
     let tasksArray = JSON.parse(localStorage.getItem('tasks')) || [];
     tasksArray = tasksArray.filter(task => task.id !== parseInt(taskId));
     localStorage.setItem('tasks', JSON.stringify(tasksArray));
-
-    // Supprimer l'élément de la tâche du DOM
     let taskElement = document.getElementById('task_' + taskId);
     if (taskElement) {
         taskElement.remove();
@@ -157,11 +163,8 @@ function setupEditTaskButtons() {
     let editTaskButtons = document.querySelectorAll('.listContainer-listToDo-task-editBtn');
     editTaskButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Extraire l'ID de l'élément parent (la tâche)
             let taskId = btn.parentNode.id.split('_')[1];
-            // Trouver l'élément de la tâche dans le DOM
             let taskElement = document.getElementById('task_' + taskId);
-            // Appeler la fonction d'édition avec l'ID extrait
             editTask(taskElement);
         });
     });
@@ -173,7 +176,6 @@ function setupDeleteTaskButtons() {
     let deleteTaskButtons = document.querySelectorAll('.listContainer-listToDo-task-deleteBtn');
     deleteTaskButtons.forEach(btn => {
         btn.addEventListener('click', () => {
-            // Extraire l'ID de l'élément parent (la tâche)
             let taskId = btn.parentNode.id.split('_')[1];
             deleteTask(taskId);
         });
@@ -181,9 +183,14 @@ function setupDeleteTaskButtons() {
 }
 setupDeleteTaskButtons();
 
-console.log(localStorage);
+function clearAllTasks() {
+    localStorage.clear()
+    location.reload()
+}
+
+
 let clearBtn = document.getElementById("clearAllTaskBtn");
-clearBtn.addEventListener('click', () => localStorage.clear)
+clearBtn.addEventListener('click', () => clearAllTasks())
 let newTaskBtn = document.getElementById("newTaskBtn");
 newTaskBtn.addEventListener('click', () => taskForm());
 let closeBtn = document.getElementById("closeBtn");

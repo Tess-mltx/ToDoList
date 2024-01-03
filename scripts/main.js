@@ -9,10 +9,12 @@ function getTheID () {
     return counter
 }
 getTheID()
+
 class tasks {
     constructor(taskToDo) {
         this.task = taskToDo;
         this.id = counter++;
+        this.isDone = false;
     }
 
 }
@@ -26,6 +28,7 @@ function CreateTask(newTask){
     task.classList.add('listContainer-listToDo-task')
     let checkbox = document.createElement('input');
     checkbox.setAttribute("type", "checkbox");
+    checkbox.checked = newTask.isDone;
     checkbox.classList.add('listContainer-listToDo-task-ckeckbox')
     let text = document.createElement('p');
     text.classList.add('listContainer-listToDo-task-text')
@@ -68,8 +71,6 @@ function taskForm(){
     closeBtn.id = "closeBtn"
     let closeIcone = document.createElement('i');
     closeIcone.classList.add("fa-solid", "fa-xmark")
-    let label = document.createElement('label');
-    label.setAttribute("for", "taskToDo");
     let text = document.createElement('input');
     text.setAttribute("type", "text");
     text.id = "taskTodo";
@@ -85,8 +86,6 @@ function taskForm(){
     title.appendChild(document.createTextNode("Add new task"))
     headerForm.appendChild(closeBtn);
     closeBtn.appendChild(closeIcone);
-    form.appendChild(label);
-    label.appendChild(document.createTextNode("The task =>"))
     form.appendChild(text);
     form.appendChild(submit);
     //do
@@ -96,10 +95,13 @@ function taskForm(){
 
 function closeForm(){
     let form = document.querySelector(".newTaskForm");
+    let overlay = document.querySelector(".overlay")
     form.remove();
+    overlay.remove();
 }
 
 let editingTask = null;
+
 function editTask(task) {
     taskForm();
     let taskText = task.querySelector('.listContainer-listToDo-task-text').textContent;
@@ -119,20 +121,24 @@ function submitNewTask() {
         event.preventDefault();
 
         if (editingTask) {
-            editingTask.querySelector('.listContainer-listToDo-task-text').textContent = taskToDo.value;
-            // Réinitialisez la variable d'édition
+            let tasksArray = JSON.parse(localStorage.getItem('tasks')) || []; // <=== on va cherche l'array tasks ou un array vide
+            let editedTask = tasksArray.find(task => task.id === parseInt(editingTask.id.split('_')[1])); // <=== chercher la task via son ID
+            if (editedTask) {
+                editedTask.task = taskToDo.value;
+                localStorage.setItem('tasks', JSON.stringify(tasksArray)); //  <=== Sauvegarde de l'array
+            }
+
             editingTask = null;
+            location.reload();
         } else {
-            // Sinon, créez une nouvelle tâche
             let newTask = new tasks(taskToDo.value);
             CreateTask(newTask);
             saveTaskLocally(newTask);
         }
-        console.log(localStorage.tasks)
         closeForm();
-        location.reload()
     });
 }
+
 
 
 function saveTaskLocally(task) {
@@ -143,6 +149,8 @@ function saveTaskLocally(task) {
 
 function loadTasksLocally() {
     let tasksArray = JSON.parse(localStorage.getItem('tasks')) || [];
+    // Sort tasks based on isDone (completed tasks last)
+    tasksArray.sort((a, b) => (a.isDone === b.isDone) ? 0 : a.isDone ? 1 : -1);
     tasksArray.forEach(task => {
         CreateTask(task);
     });
@@ -162,17 +170,33 @@ function deleteTask(taskId) {
 
 
 
-// function setupCheckedTaskBtn() {
-//     let CheckedTaskBtn = document.querySelectorAll('.listContainer-listToDo-task-ckeckbox');
-//     CheckedTaskBtn.forEach(btn => {
-//         btn.addEventListener('click', () => {
-//             let taskId = btn.parentNode.id.split('_')[1];
-//             let taskElement = document.getElementById('task_' + taskId);
-//             editTask(taskElement);
-//         });
-//     });
-// }
-// setupCheckedTaskBtn();
+function setupCheckedTaskBtn() {
+    let CheckedTaskBtn = document.querySelectorAll('.listContainer-listToDo-task-ckeckbox');
+    
+    CheckedTaskBtn.forEach(btn => {
+        let taskId = btn.parentNode.id.split('_')[1];
+        let taskElement = document.getElementById('task_' + taskId);
+        let ul = document.querySelector('.listContainer-listToDo');
+
+        btn.addEventListener('change', function() {
+            if (this.checked) {
+              taskElement.classList.add("done");
+              ul.append(taskElement)
+
+            } else {
+              taskElement.classList.remove("done")
+            }
+
+            let tasksArray = JSON.parse(localStorage.getItem('tasks')) || [];
+            let task = tasksArray.find(task => task.id === parseInt(taskId));
+            if (task) {
+                task.isDone = this.checked;
+                localStorage.setItem('tasks', JSON.stringify(tasksArray));
+            }
+          });
+    });
+}
+setupCheckedTaskBtn();
 
 
 

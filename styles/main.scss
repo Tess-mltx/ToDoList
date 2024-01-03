@@ -11,7 +11,9 @@ body {
     background-color: $background-dark;
 }
 header{
-    margin: 20px 0px;
+    margin: 40px 0px;
+    display: flex;
+    justify-content: center;
 }
 .overlay{
     position: fixed;
@@ -30,6 +32,13 @@ header{
     transform: translate(-50%, -50%);
     z-index: 101;
     background-color: $on-background-dark;
+    border-radius: 10px;
+    padding: 20px 40px;
+    &-header{
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+    }
 }
 
 button{
@@ -40,6 +49,7 @@ button{
 
 #newTaskBtn, #clearAllTaskBtn{
     padding: 10px 20px;
+    margin: 0px 7px;
 }
 #newTaskBtn{
     background-color: $secondary-dark;
@@ -56,8 +66,11 @@ button{
         margin : 15px 10px;
         padding: 20px 10px;
         border-radius: 10px;
-        background-color: $primary-dark;
-        &:nth-child(2n){
+        word-break: break-all;
+        &:nth-child(3n+1){
+            background-color: $primary-dark;
+        }
+        &:nth-child(3n+2){
             background-color: $secondary-dark;
         }
         &:nth-child(3n){
@@ -68,6 +81,7 @@ button{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-around;
+        align-items: flex-start;
         &-task {
             width: 27%;
         }

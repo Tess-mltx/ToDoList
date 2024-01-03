@@ -50,7 +50,9 @@ body {
   background-color: #031521; }
 
 header {
-  margin: 20px 0px; }
+  margin: 40px 0px;
+  display: flex;
+  justify-content: center; }
 
 .overlay {
   position: fixed;
@@ -68,7 +70,13 @@ header {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 101;
-  background-color: #d0eafb; }
+  background-color: #d0eafb;
+  border-radius: 10px;
+  padding: 20px 40px; }
+  .newTaskForm-header {
+    margin: 0;
+    display: flex;
+    justify-content: space-between; }
 
 button {
   border: none;
@@ -76,7 +84,8 @@ button {
   cursor: pointer; }
 
 #newTaskBtn, #clearAllTaskBtn {
-  padding: 10px 20px; }
+  padding: 10px 20px;
+  margin: 0px 7px; }
 
 #newTaskBtn {
   background-color: #d9abff; }
@@ -91,8 +100,10 @@ button {
   margin: 15px 10px;
   padding: 20px 10px;
   border-radius: 10px;
-  background-color: #abe4ff; }
-  .listContainer-listToDo-task:nth-child(2n) {
+  word-break: break-all; }
+  .listContainer-listToDo-task:nth-child(3n+1) {
+    background-color: #abe4ff; }
+  .listContainer-listToDo-task:nth-child(3n+2) {
     background-color: #d9abff; }
   .listContainer-listToDo-task:nth-child(3n) {
     background-color: #ffcbab; }
@@ -100,7 +111,8 @@ button {
   .listContainer-listToDo {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around; }
+    justify-content: space-around;
+    align-items: flex-start; }
     .listContainer-listToDo-task {
       width: 27%; } }
 

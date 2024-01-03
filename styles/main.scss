@@ -1,0 +1,75 @@
+@import "resset";
+@import "tokkens";
+
+@mixin media-minwidth($screensize){
+    @media (min-width:$screensize) {
+       @content;
+     };
+}
+
+body {
+    background-color: $background-dark;
+}
+header{
+    margin: 20px 0px;
+}
+.overlay{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(3, 21, 33, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+.newTaskForm{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    background-color: $on-background-dark;
+}
+
+button{
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#newTaskBtn, #clearAllTaskBtn{
+    padding: 10px 20px;
+}
+#newTaskBtn{
+    background-color: $secondary-dark;
+}
+#clearAllTaskBtn {
+    background-color: transparent;
+    border: 1px solid $primary-dark;
+    color: $on-background-dark;
+}
+
+.listContainer-listToDo{
+    &-task {
+        display: flex;
+        margin : 15px 10px;
+        padding: 20px 10px;
+        border-radius: 10px;
+        background-color: $primary-dark;
+        &:nth-child(2n){
+            background-color: $secondary-dark;
+        }
+        &:nth-child(3n){
+            background-color: $tertiary-dark;
+        }
+    }
+    @include media-minwidth($md-screen){
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        &-task {
+            width: 27%;
+        }
+    }
+}

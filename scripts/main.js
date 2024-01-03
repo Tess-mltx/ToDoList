@@ -56,6 +56,8 @@ function taskForm(){
     //exist
     let header = document.querySelector('.header');
     //create
+    let overlay = document.createElement("div");
+    overlay.classList.add("overlay");
     let form = document.createElement('form');
     form.classList.add("newTaskForm")
     let headerForm = document.createElement('header');
@@ -77,6 +79,7 @@ function taskForm(){
     submit.id = "submitBtn"
     //append
     header.appendChild(form);
+    header.appendChild(overlay);
     form.appendChild(headerForm);
     headerForm.appendChild(title);
     title.appendChild(document.createTextNode("Add new task"))
@@ -156,6 +159,20 @@ function deleteTask(taskId) {
         taskElement.remove();
     }
 }
+
+
+
+// function setupCheckedTaskBtn() {
+//     let CheckedTaskBtn = document.querySelectorAll('.listContainer-listToDo-task-ckeckbox');
+//     CheckedTaskBtn.forEach(btn => {
+//         btn.addEventListener('click', () => {
+//             let taskId = btn.parentNode.id.split('_')[1];
+//             let taskElement = document.getElementById('task_' + taskId);
+//             editTask(taskElement);
+//         });
+//     });
+// }
+// setupCheckedTaskBtn();
 
 
 

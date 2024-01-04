@@ -136,6 +136,10 @@ function submitNewTask() {
             saveTaskLocally(newTask);
         }
         closeForm();
+        setupEditTaskButtons();
+        setupDeleteTaskButtons();
+        setupCheckedTaskBtn();
+
     });
 }
 
@@ -153,6 +157,13 @@ function loadTasksLocally() {
     tasksArray.sort((a, b) => (a.isDone === b.isDone) ? 0 : a.isDone ? 1 : -1);
     tasksArray.forEach(task => {
         CreateTask(task);
+        if (task.isDone) {
+            let taskId = 'task_' + task.id;
+            let taskElement = document.getElementById(taskId);
+            if (taskElement) {
+                taskElement.classList.add("done");
+            }
+        }
     });
 }
 loadTasksLocally();
@@ -228,6 +239,15 @@ function clearAllTasks() {
     localStorage.clear()
     location.reload()
 }
+
+// function clearDoneTask() {
+//     let tasksArray = JSON.parse(localStorage.getItem('tasks')) || [];
+//     tasksArray = tasksArray.filter(task => task.id !== parseInt(taskId));
+//     localStorage.setItem('tasks', JSON.stringify(tasksArray));
+//     if (task.isDone === false) {
+//         localStorage.taks.
+//     }
+// }
 
 
 let clearBtn = document.getElementById("clearAllTaskBtn");

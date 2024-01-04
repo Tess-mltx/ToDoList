@@ -60,6 +60,7 @@ button{
     color: $on-background-dark;
 }
 
+
 .listContainer-listToDo{
     &-task {
         display: flex;
@@ -86,4 +87,8 @@ button{
             width: 27%;
         }
     }
+}
+
+.listContainer-listToDo-task.done {
+    background-color: $neutral-dark;
 }

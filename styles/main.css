@@ -107,7 +107,7 @@ button {
     background-color: #d9abff; }
   .listContainer-listToDo-task:nth-child(3n) {
     background-color: #ffcbab; }
-@media (min-width: 700px) {
+@media (min-width: 600px) {
   .listContainer-listToDo {
     display: flex;
     flex-wrap: wrap;
@@ -115,5 +115,8 @@ button {
     align-items: flex-start; }
     .listContainer-listToDo-task {
       width: 27%; } }
+
+.listContainer-listToDo-task.done {
+  background-color: #7a98ad; }
 
 /*# sourceMappingURL=main.css.map */

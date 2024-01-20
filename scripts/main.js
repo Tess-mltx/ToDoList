@@ -1,5 +1,6 @@
 let counter
 function getTheID () {
+
     let arrayTask = localStorage.tasks
     if (localStorage.getItem('tasks') !== null) {
         counter = parseInt(arrayTask.length)
